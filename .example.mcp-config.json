@@ -1,0 +1,17 @@
+{
+    "mcpServers": {
+        "qq-music": {
+            "command": "node",
+            "args": ["/Users/weirwei/Documents/Cline/MCP/qq-music-server/build/index.js"],
+            "env": {
+                "QQ_MUSIC_API_KEY": "YOUR_QQ_MUSIC_API_KEY_HERE"
+            }
+        },
+        "github.com/AgentDeskAI/browser-tools-mcp": {
+            "command": "npx",
+            "args": ["@agentdeskai/browser-tools-mcp@1.2.0"],
+            "disabled": false,
+            "autoApprove": []
+        }
+    }
+}
