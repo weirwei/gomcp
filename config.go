@@ -15,11 +15,10 @@ type Config struct {
 
 // ServerConfig 表示单个 MCP 服务器的配置
 type ServerConfig struct {
-	Command     string            `json:"command"`
-	Args        []string          `json:"args"`
-	Env         map[string]string `json:"env,omitempty"`
-	Disabled    bool              `json:"disabled,omitempty"`
-	AutoApprove []string          `json:"autoApprove,omitempty"`
+	Command  string            `json:"command"`
+	Args     []string          `json:"args"`
+	Env      map[string]string `json:"env,omitempty"`
+	Disabled bool              `json:"disabled,omitempty"`
 }
 
 // LoadConfig 从文件加载 MCP 配置

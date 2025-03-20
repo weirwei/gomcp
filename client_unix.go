@@ -3,9 +3,10 @@ package gomcp
 import (
 	"errors"
 	"fmt"
-	jsoniter "github.com/json-iterator/go"
 	"io"
 	"net"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 // UnixClient 实现了基于 Unix Domain Socket 的 MCP 客户端
@@ -14,7 +15,7 @@ type UnixClient struct {
 }
 
 // NewUnixClient 创建一个新的 Unix Domain Socket MCP 客户端
-func NewUnixClient(socketPath string) (*UnixClient, error) {
+func NewUnixClient(socketPath string) (Client, error) {
 	conn, err := net.Dial("unix", socketPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to socket: %w", err)

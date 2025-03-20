@@ -20,7 +20,7 @@ type UnixServer struct {
 }
 
 // NewUnixServer 创建一个新的 Unix Domain Socket MCP 服务器
-func NewUnixServer(socketPath string) *UnixServer {
+func NewUnixServer(socketPath string) Server {
 	return &UnixServer{
 		socketPath: socketPath,
 		handlers:   make(map[string]RequestHandler),

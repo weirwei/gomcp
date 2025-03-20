@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/weirwei/gomcp"
 	"os"
+
+	"github.com/weirwei/gomcp"
 )
 
 func main() {
@@ -14,7 +15,7 @@ func main() {
 	} else if args[1] == "server" {
 		helloServer()
 	} else if args[1] == "client" {
-		helloClient()
+		helloClient(args[2])
 	} else {
 		fmt.Println("Unknown command:", args[1])
 	}
@@ -31,16 +32,16 @@ func helloServer() {
 		return "close", nil
 	})
 	server.Start()
-	server.Wait()
+	server.(*gomcp.UnixServer).Wait()
 }
 
-func helloClient() {
+func helloClient(method string) {
 	client, err := gomcp.NewUnixClient("/tmp/mcp.sock")
 	if err != nil {
 		panic(err)
 	}
 	defer client.Close()
-	err = client.SendRequest("close", nil)
+	err = client.SendRequest(method, nil)
 	if err != nil {
 		panic(err)
 	}

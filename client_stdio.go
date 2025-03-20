@@ -20,7 +20,7 @@ type StdioClient struct {
 }
 
 // NewStdioClient 创建一个新的标准输入输出 MCP 客户端
-func NewStdioClient(reader io.ReadCloser, writer io.WriteCloser) *StdioClient {
+func NewStdioClient(reader io.ReadCloser, writer io.WriteCloser) Client {
 	// 否则使用系统的标准输入和标准输出
 	client := &StdioClient{
 		reader:     reader,

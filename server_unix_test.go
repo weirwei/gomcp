@@ -14,10 +14,10 @@ import (
 // 测试创建新的UnixServer
 func TestNewUnixServer(t *testing.T) {
 	socketPath := "/tmp/test_unix_server.sock"
-	server := NewUnixServer(socketPath)
-
-	if server == nil {
-		t.Fatal("NewUnixServer返回了nil")
+	server := &UnixServer{
+		socketPath: socketPath,
+		handlers:   make(map[string]RequestHandler),
+		done:       make(chan struct{}),
 	}
 
 	if server.socketPath != socketPath {
@@ -35,7 +35,11 @@ func TestNewUnixServer(t *testing.T) {
 
 // 测试注册处理器
 func TestUnixServer_RegisterHandler(t *testing.T) {
-	server := NewUnixServer("/tmp/test_unix_server.sock")
+	server := &UnixServer{
+		socketPath: "/tmp/test_unix_server.sock",
+		handlers:   make(map[string]RequestHandler),
+		done:       make(chan struct{}),
+	}
 
 	// 注册一个处理器
 	testHandler := func(params map[string]interface{}) (interface{}, error) {
@@ -43,7 +47,6 @@ func TestUnixServer_RegisterHandler(t *testing.T) {
 	}
 
 	server.RegisterHandler("test_method", testHandler)
-
 	// 验证处理器是否已注册
 	server.mu.RLock()
 	handler, exists := server.handlers["test_method"]
@@ -66,7 +69,11 @@ func TestUnixServer_RegisterHandler(t *testing.T) {
 
 // 测试处理请求 - 方法不存在的情况
 func TestUnixServer_HandleRequest_MethodNotFound(t *testing.T) {
-	server := NewUnixServer("/tmp/test_unix_server.sock")
+	server := &UnixServer{
+		socketPath: "/tmp/test_unix_server.sock",
+		handlers:   make(map[string]RequestHandler),
+		done:       make(chan struct{}),
+	}
 
 	// 创建一个请求，使用不存在的方法
 	request := Request{
@@ -103,7 +110,11 @@ func TestUnixServer_HandleRequest_MethodNotFound(t *testing.T) {
 
 // 测试处理请求 - 成功的情况
 func TestUnixServer_HandleRequest_Success(t *testing.T) {
-	server := NewUnixServer("/tmp/test_unix_server.sock")
+	server := &UnixServer{
+		socketPath: "/tmp/test_unix_server.sock",
+		handlers:   make(map[string]RequestHandler),
+		done:       make(chan struct{}),
+	}
 
 	// 注册一个测试处理器
 	server.RegisterHandler("test_method", func(params map[string]interface{}) (interface{}, error) {
@@ -141,7 +152,11 @@ func TestUnixServer_HandleRequest_Success(t *testing.T) {
 
 // 测试处理请求 - 处理器返回错误的情况
 func TestUnixServer_HandleRequest_HandlerError(t *testing.T) {
-	server := NewUnixServer("/tmp/test_unix_server.sock")
+	server := &UnixServer{
+		socketPath: "/tmp/test_unix_server.sock",
+		handlers:   make(map[string]RequestHandler),
+		done:       make(chan struct{}),
+	}
 
 	// 注册一个返回错误的处理器
 	server.RegisterHandler("error_method", func(params map[string]interface{}) (interface{}, error) {
@@ -183,7 +198,11 @@ func TestUnixServer_HandleRequest_HandlerError(t *testing.T) {
 
 // 测试处理请求 - 无效方法类型的情况
 func TestUnixServer_HandleRequest_InvalidMethodType(t *testing.T) {
-	server := NewUnixServer("/tmp/test_unix_server.sock")
+	server := &UnixServer{
+		socketPath: "/tmp/test_unix_server.sock",
+		handlers:   make(map[string]RequestHandler),
+		done:       make(chan struct{}),
+	}
 
 	// 创建一个请求，使用非字符串类型的方法
 	request := Request{
@@ -228,7 +247,11 @@ func TestUnixServer_StartStop(t *testing.T) {
 	defer os.RemoveAll(tempDir)
 
 	socketPath := filepath.Join(tempDir, "test.sock")
-	server := NewUnixServer(socketPath)
+	server := &UnixServer{
+		socketPath: socketPath,
+		handlers:   make(map[string]RequestHandler),
+		done:       make(chan struct{}),
+	}
 
 	// 启动服务器
 	err = server.Start()
