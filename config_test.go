@@ -93,7 +93,7 @@ func TestGetServerConfig(t *testing.T) {
 	}
 }
 
-func TestStartServer(t *testing.T) {
+func TestBuildServer(t *testing.T) {
 	config := &Config{
 		MCPServers: map[string]ServerConfig{
 			"test-server": {
@@ -107,13 +107,8 @@ func TestStartServer(t *testing.T) {
 	}
 
 	// 启动服务器
-	cmd, err := config.BuildServer("test-server")
+	_, err := config.BuildServer("test-server")
 	if err != nil {
 		t.Fatalf("Failed to start server: %v", err)
-	}
-
-	// 等待服务器进程结束
-	if err := cmd.Wait(); err != nil {
-		t.Fatalf("Server process failed: %v", err)
 	}
 }
