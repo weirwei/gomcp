@@ -3,6 +3,7 @@ package gomcp
 import (
 	"bytes"
 	"errors"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -41,7 +42,8 @@ func TestStdioServer_RegisterHandler(t *testing.T) {
 
 // 测试启动和停止服务器
 func TestStdioServer_StartStop(t *testing.T) {
-	server := NewStdioServer(nil, nil)
+	reader, writer, _ := os.Pipe()
+	server := NewStdioServer(reader, writer)
 
 	// 启动服务器
 	err := server.Start()

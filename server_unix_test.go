@@ -1,14 +1,13 @@
 package gomcp
 
 import (
+	"encoding/json"
 	"errors"
 	"net"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 // 测试创建新的UnixServer
@@ -335,7 +334,7 @@ func TestUnixServer_ClientServerCommunication(t *testing.T) {
 	}
 
 	// 使用jsoniter发送请求
-	requestBytes, err := jsoniter.Marshal(request)
+	requestBytes, err := json.Marshal(request)
 	if err != nil {
 		t.Fatalf("序列化请求失败: %v", err)
 	}
@@ -348,7 +347,7 @@ func TestUnixServer_ClientServerCommunication(t *testing.T) {
 
 	// 使用jsoniter接收响应
 	var response Response
-	decoder := jsoniter.NewDecoder(conn)
+	decoder := json.NewDecoder(conn)
 	err = decoder.Decode(&response)
 	if err != nil {
 		t.Fatalf("接收响应失败: %v", err)

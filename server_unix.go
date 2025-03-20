@@ -1,12 +1,11 @@
 package gomcp
 
 import (
+	"encoding/json"
 	"fmt"
 	"net"
 	"os"
 	"sync"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 // UnixServer 实现了基于 Unix Domain Socket 的 MCP 服务器
@@ -99,8 +98,8 @@ func (s *UnixServer) handleConnection(conn net.Conn) {
 		}
 	}()
 
-	decoder := jsoniter.NewDecoder(conn)
-	encoder := jsoniter.NewEncoder(conn)
+	decoder := json.NewDecoder(conn)
+	encoder := json.NewEncoder(conn)
 
 	for {
 		// 检查是否已关闭

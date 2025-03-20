@@ -2,12 +2,11 @@ package gomcp
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"io"
 	"sync"
 	"time"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 // StdioClient 实现了基于标准输入输出的 MCP 客户端
@@ -54,7 +53,7 @@ func (c *StdioClient) SendRequest(method string, params map[string]interface{}) 
 		ID:      1,
 	}
 
-	data, err := jsoniter.Marshal(request)
+	data, err := json.Marshal(request)
 	if err != nil {
 		return fmt.Errorf("failed to marshal request: %w", err)
 	}
@@ -91,7 +90,7 @@ func (c *StdioClient) readResponses() {
 		if len(line) == 0 {
 			continue
 		}
-		if err = jsoniter.Unmarshal(line, &response); err != nil {
+		if err = json.Unmarshal(line, &response); err != nil {
 			c.errorCh <- fmt.Errorf("failed to unmarshal response: %v", err)
 			return
 		}

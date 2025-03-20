@@ -1,8 +1,8 @@
 package gomcp
 
 import (
+	"encoding/json"
 	"errors"
-	jsoniter "github.com/json-iterator/go"
 	"io"
 	"net"
 	"os"
@@ -242,7 +242,7 @@ func TestUnixClient_MockConnection(t *testing.T) {
 
 	// 验证写入的数据
 	var request map[string]interface{}
-	err = jsoniter.Unmarshal(mockConn.writeData, &request)
+	err = json.Unmarshal(mockConn.writeData, &request)
 	if err != nil {
 		t.Fatalf("解析请求数据失败: %v", err)
 	}

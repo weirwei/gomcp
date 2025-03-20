@@ -1,8 +1,8 @@
 package gomcp
 
 import (
+	"encoding/json"
 	"fmt"
-	jsoniter "github.com/json-iterator/go"
 	"io"
 	"sync"
 )
@@ -51,8 +51,8 @@ func (s *StdioServer) RegisterHandler(method string, handler RequestHandler) {
 }
 
 func (s *StdioServer) handleMessages() {
-	decoder := jsoniter.NewDecoder(s.reader)
-	encoder := jsoniter.NewEncoder(s.writer)
+	decoder := json.NewDecoder(s.reader)
+	encoder := json.NewEncoder(s.writer)
 
 	for {
 		select {

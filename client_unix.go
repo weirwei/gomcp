@@ -1,12 +1,11 @@
 package gomcp
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 // UnixClient 实现了基于 Unix Domain Socket 的 MCP 客户端
@@ -36,13 +35,13 @@ func (c *UnixClient) SendRequest(method string, params map[string]interface{}) e
 		Params:  params,
 		ID:      1,
 	}
-	return jsoniter.NewEncoder(c.conn).Encode(request)
+	return json.NewEncoder(c.conn).Encode(request)
 }
 
 // ReceiveResponse 接收 MCP 响应
 func (c *UnixClient) ReceiveResponse() (map[string]interface{}, error) {
 	var response map[string]interface{}
-	err := jsoniter.NewDecoder(c.conn).Decode(&response)
+	err := json.NewDecoder(c.conn).Decode(&response)
 	if err != nil {
 		if errors.Is(err, io.EOF) {
 			return nil, nil
